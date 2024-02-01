@@ -28,6 +28,7 @@ const Signup:React.FC<SignupProps> = () => {
         try {
             const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
             if (!newUser) return;
+            toast.success("Account Registered!", {position: "top-center", autoClose: 3000, theme: "dark"});
             router.push('/')
         } catch (error:any) {
             toast.error(error.message, {position: "top-center", autoClose: 3000, theme: "dark"});
