@@ -1,7 +1,23 @@
 import ProblemsTable from "@/components/ProblemsTable/ProblemsTable";
 import Topbar from "@/components/Topbar/Topbar";
+import { auth } from "@/firebase/firebase";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
+
+  const router = useRouter();
+  const [user, loading, error] = useAuthState(auth);
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+      if(!user) router.push('/auth');
+      if(user) setPageLoading(false);
+  }, [user, error, router]);
+
+  if (pageLoading) return null;
+
   return (
     <main className="bd-dark-layer-2 min-h-screen">
       <Topbar />

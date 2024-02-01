@@ -1,10 +1,12 @@
 # Leetcode 2.0
 
-This is my own version of [Leetcode](https://leetcode.com/).
+This is my own (alpha) version of [Leetcode](https://leetcode.com/).
 
 ## Getting Started
 
-First, run the development server:
+1 - Make a copy `.env.example` to `.env.local` and add your projects information from [Firebase](https://firebase.google.com/).
+
+2 - Run the development server:
 
 ```bash
 npm run dev

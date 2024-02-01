@@ -1,12 +1,35 @@
-import React from 'react';
+import { authModalState } from '@/atoms/authModalAtom';
+import React, { useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useSetRecoilState } from 'recoil';
 
-type ResetPasswordProps = {
-    
-};
+type ResetPasswordProps = {};
 
 const ResetPassword:React.FC<ResetPasswordProps> = () => {
+	const [inputs, setInputs] = useState({email:''})
+
+    const setAuthModalState = useSetRecoilState(authModalState)
+    const closeModal = useCallback(() => {
+        setAuthModalState((prev) => ({...prev, isOpen: false, type: 'login'}));
+    }, [setAuthModalState]);
+
+    const handleChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setInputs((prev) => ({...prev, [e.target.name]: e.target.value}));
+    }
+
+	const handleResetPassword = async (e:React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if(!inputs.email) return toast.warning("Please fill all fields", {position: "top-center", autoClose: 3000, theme: "dark"});
+		try {
+			toast.success("Email was sent!", {position: "top-center", autoClose: 3000, theme: "dark"});
+			closeModal();
+		} catch (error:any) {
+			toast.error(error.message, {position: "top-center", autoClose: 3000, theme: "dark"});
+		}
+	}
+
     return (
-		<form className='space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8'>
+		<form className='space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8' onSubmit={handleResetPassword}>
 			<h3 className='text-xl font-medium  text-white'>Reset Password</h3>
 			<p className='text-sm text-white '>
 				Forgotten your password? Enter your e-mail address below, and we&apos;ll send you an e-mail allowing you
@@ -17,6 +40,7 @@ const ResetPassword:React.FC<ResetPasswordProps> = () => {
 					Your email
 				</label>
 				<input
+					onChange={handleChangeInput}
 					type='email'
 					name='email'
 					id='email'
