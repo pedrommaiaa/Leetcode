@@ -8,9 +8,9 @@ import { useRecoilValue } from 'recoil';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 
-type authPageProps = {};
+type AuthPageProps = {};
 
-const authPage:React.FC<authPageProps> = () => {
+const AuthPage:React.FC<AuthPageProps> = () => {
     const router = useRouter();
     const authModal = useRecoilValue(authModalState);
     const [user, loading, error] = useAuthState(auth);
@@ -19,7 +19,7 @@ const authPage:React.FC<authPageProps> = () => {
     useEffect(() => {
         if(user) router.push('/');
         if(!loading && !user) setPageLoading(false);
-    }, [error, router, loading]);
+    }, [user, error, router, loading]);
 
     if (pageLoading) return null;
 
@@ -34,4 +34,4 @@ const authPage:React.FC<authPageProps> = () => {
         </div>
     </div>
 }
-export default authPage;
+export default AuthPage;

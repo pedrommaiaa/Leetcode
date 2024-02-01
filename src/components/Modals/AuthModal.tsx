@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
 import Login from './Login';
 import Signup from './Signup';
@@ -39,16 +39,18 @@ export default AuthModal;
 
 function useCloseModal(){
     const setAuthModal = useSetRecoilState(authModalState);
-    const closeModal = () => {
+
+    const closeModal = useCallback(() => {
         setAuthModal((prev) => ({...prev, isOpen: false, type: 'login'}));
-    }
+    }, [setAuthModal]);
+
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") closeModal();
         };
         window.addEventListener("keydown", handleEsc);
         return () => window.removeEventListener("keydown", handleEsc);
-    },[]);
+    },[closeModal]);
 
     return closeModal;
 }

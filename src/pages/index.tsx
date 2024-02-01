@@ -1,5 +1,5 @@
 import ProblemsTable from "@/components/ProblemsTable/ProblemsTable";
-import Topbar from "@/components/Topbar/topbar";
+import Topbar from "@/components/Topbar/Topbar";
 
 export default function Home() {
   return (
